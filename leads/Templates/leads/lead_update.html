@@ -1,0 +1,11 @@
+<p>Update the lead details</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ forms.as_p }}
+    <button type=submit>Submit</button>
+</form>
+
+<br><br>
+
+<a href='{% url "leads:leads_list" %}'>Go Back</a>

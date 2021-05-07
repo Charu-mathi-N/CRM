@@ -1,0 +1,12 @@
+{{ leads }}
+<p>The Leads details are:</p>
+<a href='{% url "leads:leads_list" %}'>Go Back</a>
+<div>
+    <li>NAME: {{ leads.first_name}} {{leads.last_name}}</li>
+    <li>AGE: {{ leads.age}}</li>
+    <li>The AGENT responsible for the lead is: {{ leads.agent }}</li>
+    <br>
+    <a href="{% url 'leads:leads_delete' leads.pk %}">Delete Leads</a>
+    <br></br>
+    <a href="{% url 'leads:leads_update' leads.pk %}">Update Leads</a>
+</div>
