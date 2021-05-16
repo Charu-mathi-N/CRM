@@ -1,9 +1,79 @@
+import logging
+from django import contrib
+from django.contrib.auth.views import LoginView
+from django.views.generic.edit import CreateView
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Lead, Agent
 from .forms import LeadModelForm
+from django.contrib import messages
+from django.core.mail import send_mail
+
+from django.urls import reverse
+
+from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import (
+    LeadForm, 
+    LeadModelForm, 
+    CustomUserCreationForm
+)
 
 # Create your views here.
+
+logger = logging.getLogger(__name__)
+
+
+#Authentication
+class SignupView(generic.CreateView):
+    template_name = "registration/signup.html"
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self):
+        return reverse("leads:leads_list")
+
+class LandingPageView(generic.TemplateView):
+    template_name = "leads/landing.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("dashboard")
+        return super().dispatch(request, *args, **kwargs)
+
+class LeadListView(LoginRequiredMixin, generic.ListView):
+    template_name = "leads/lead_list.html"
+    context_object_name = "leads"
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of leads for the entire organisation
+        if user.is_organisor:
+            queryset = Lead.objects.filter(
+                organisation=user.userprofile, 
+                agent__isnull=False
+            )
+        else:
+            queryset = Lead.objects.filter(
+                organisation=user.agent.organisation, 
+                agent__isnull=False
+            )
+            # filter for the agent that is logged in
+            queryset = queryset.filter(agent__user=user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(LeadListView, self).get_context_data(**kwargs)
+        user = self.request.user
+        if user.is_organisor:
+            queryset = Lead.objects.filter(
+                organisation=user.userprofile, 
+                agent__isnull=True
+            )
+            context.update({
+                "unassigned_leads": queryset
+            })
+        return context
 
 def leads_list(request):
     leads = Lead.objects.all()
@@ -29,6 +99,7 @@ def leads_create(request):
             print(form.cleaned_data)
             form.save()
             #Alternate if LeadModelForm was not created
+
             # first_name = form.cleaned_data['first_name']
             # last_name = form.cleaned_data['last_name']
             # age = form.cleaned_data['age']
