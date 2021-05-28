@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import leads_details, leads_list, leads_create, lead_update, lead_delete, SignupView
+from .views import  LeadDetailsView, LeadListView, LeadDetailsView, LeadCreateView, LeadUpdateView, lead_delete, SignupView
 from django.contrib.auth.views import (
     LoginView,
     LogoutView, 
@@ -15,10 +15,10 @@ from django.urls import path
 app_name = 'leads'
 
 urlpatterns = [
-    path('', leads_list, name='leads_list'),
-    path('<int:pk>/', leads_details, name='leads_details'),
-    path('create/', leads_create, name='leads_create'),
-    path('<int:pk>/update', lead_update, name='leads_update'),
+    path('', LeadListView.as_view(), name='leads_list'),
+    path('<int:pk>/', LeadDetailsView.as_view(), name='leads_details'),
+    path('create/', LeadCreateView.as_view(), name='leads_create'),
+    path('<int:pk>/update', LeadUpdateView.as_view(), name='leads_update'),
     path('<int:pk>/delete', lead_delete, name='leads_delete'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('reset-password/', PasswordResetView.as_view(), name='reset-password'),
