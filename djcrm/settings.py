@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/leads'
+LOGIN_URL = 'login'
 
 
 # Application definition
