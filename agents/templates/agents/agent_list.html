@@ -1,26 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'leads/base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
 
 <div class="max-w-lg mx-auto">
-    <a class="hover:text-blue-500" href="{% url "leads:leads_list" %}">Go back to leads</a>
+    <a class="hover:text-blue-500" href="{% url "agents:agent_list" %}">Go back to Agents</a>
     <div class="py-5 border-t border-gray-200">
-        <h1 class="text-4xl text-gray-800">The Leads page</h1>
+        <h1 class="text-4xl text-gray-800">The Agents page</h1>
     </div>
-        {% for lead in leads %}
+        {% for agent in agents %}
             <tr class="bg-white">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <a class="text-blue-500 hover:text-blue-800" href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a>
+                <a class="text-blue-500 hover:text-blue-800" href="{% url 'agents:agent_details' agent.pk %}">{{ agent.first_name }}{{ agent.last_name }}</a>
                 </td><br>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGE:
-                {{ lead.age }}<br>
+                {{ agent.age }}<br>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
-                {{ lead.agent }}
+                {{ agent.agent }}
                 </td><br>
                 </tr><br>
         {% endfor %}
-    <a href="{% url 'leads:leads_create' %}">Create Leads</a> 
+    <a href="{% url 'agents:agent_create' %}">Create Agent</a> 
 
 </div>
 

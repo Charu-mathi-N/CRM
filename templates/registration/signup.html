@@ -1,4 +1,4 @@
-{% extends 'leads/base.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -12,7 +12,7 @@
         </button>
     </form>
     <div class="py-5 border-t border-gray-200 mt-5">
-        <a class="hover:text-blue-500" href="{% url 'leads:login' %}">Already have an account?</a>
+        <a class="hover:text-blue-500" href="{% url 'login' %}">Already have an account?</a>
     </div>
 </div>
 

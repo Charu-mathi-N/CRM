@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/leads'
+LOGIN_REDIRECT_URL = '/leads/'
 LOGIN_URL = 'login'
 
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'leads',
+    'agents',
     'crispy_forms',
 ]
 
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'djcrm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / "templates" ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,6 +127,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
 STATIC_ROOT = "static_root"
 
 AUTH_USER_MODEL= 'leads.User'

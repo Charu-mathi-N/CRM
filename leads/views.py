@@ -1,9 +1,11 @@
+
 import logging
 from django.views.generic.detail import DetailView
 # from django.views.generic.edit import CreateView
 
-from django.shortcuts import render, redirect
-from .models import Lead
+from django.shortcuts import render, redirect, reverse
+from .models import Lead, Agent
+from django.views import generic
 from .forms import LeadModelForm, CustomUserCreationForm
 from django.views.generic import ListView, CreateView, UpdateView
 
@@ -25,9 +27,9 @@ class SignupView(generic.CreateView):
         return reverse("leads:leads_list")
 
 class LandingPageView(generic.TemplateView):
-    template_name = "leads/landing.html"
+    template_name = "landing.html"
 
-class LeadListView(ListView):
+class LeadListView(generic.ListView):
     template_name = "leads/lead_list.html"
     context_object_name = "leads"
     queryset = Lead.objects.all()
@@ -40,7 +42,7 @@ class LeadListView(ListView):
 #     return render(request, "leads/lead_list.html", context)
 
 
-class LeadDetailsView(DetailView):
+class LeadDetailsView(LoginRequiredMixin, generic.DetailView):
     template_name = "leads/lead_details.html"
     queryset = Lead.objects.all()
     context_object_name = "leads"
@@ -55,7 +57,7 @@ class LeadDetailsView(DetailView):
 #     return render(request, "leads/lead_details.html", context)
 
 
-class LeadCreateView(CreateView):
+class LeadCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "leads/lead_create.html" 
     form_class = LeadModelForm
 
@@ -92,7 +94,7 @@ class LeadCreateView(CreateView):
     # return render(request, "leads/lead_create.html", context)
 
 
-class LeadUpdateView(UpdateView):
+class LeadUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "leads/lead_update.html"
     queryset = Lead.objects.all()
     form_class = LeadModelForm
