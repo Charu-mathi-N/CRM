@@ -1,4 +1,3 @@
-
 import logging
 from django.views.generic.detail import DetailView
 # from django.views.generic.edit import CreateView
@@ -13,6 +12,8 @@ from django.urls import reverse
 
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .mixins import OrganisorAndLoginRequiredMixin
 
 # Create your views here.
 
@@ -57,7 +58,7 @@ class LeadDetailsView(LoginRequiredMixin, generic.DetailView):
 #     return render(request, "leads/lead_details.html", context)
 
 
-class LeadCreateView(LoginRequiredMixin, generic.CreateView):
+class LeadCreateView(OrganisorAndLoginRequiredMixin, generic.CreateView):
     template_name = "leads/lead_create.html" 
     form_class = LeadModelForm
 
@@ -94,7 +95,7 @@ class LeadCreateView(LoginRequiredMixin, generic.CreateView):
     # return render(request, "leads/lead_create.html", context)
 
 
-class LeadUpdateView(LoginRequiredMixin, generic.UpdateView):
+class LeadUpdateView(OrganisorAndLoginRequiredMixin, generic.UpdateView):
     template_name = "leads/lead_update.html"
     queryset = Lead.objects.all()
     form_class = LeadModelForm

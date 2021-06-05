@@ -1,18 +1,17 @@
-{% extends 'leads/base.html' %}
+{% extends 'base.html' %}
  
-
 {% block content %}
 
 {{ agent }}
 <p>The agent details are:</p>
-<a href='{% url "agent:leads_list" %}'>Go Back</a>
+<a href='{% url "agents:agent_list" %}'>Go Back</a>
 <div>
-    <li>NAME: {{ agent.first_name}} {{agent.last_name}}</li>
-    <li>AGE: {{ agent.age}}</li>
-    <li>The Lead responsible for the agent is: {{ agent.lead }}</li>
+    <li>NAME: {{ agent.user.first_name }} {{ agent.user.last_name }}</li>
+    <li>Email: {{ agent.user.email}}</li>
+    <li>The Lead responsible for the agent is: {{ agent.user.lead }}</li>
     <br>
-    <a href="{% url 'agents:agent_delete' agent.pk %}">Delete Agent</a>
+    <a href='{% url "agents:agent_delete" agent.pk %}'>Delete Agent</a>
     <br></br>
-    <a href="{% url 'agents:agent_update' agent.pk %}">Update Agent</a>
+    <a href='{% url "agents:agent_update" agent.pk %}'>Update Agent</a> 
 </div>
 {% endblock content %}

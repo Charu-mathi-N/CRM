@@ -16,6 +16,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPageView.as_view(), name='landing-page'),
     path('leads/', include('leads.urls', namespace='leads')),
+     path('agents/', include('agents.urls', namespace='agents')),
     path('signup/', SignupView.as_view(), name='signup'),
     path('reset-password/', PasswordResetView.as_view(), name='reset-password'),
     path('password-reset-done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
