@@ -20,7 +20,25 @@
                 </td><br>
                 </tr><br>
         {% endfor %}
-    <a href="{% url 'leads:leads_create' %}">Create Leads</a> 
+        {% if unassinged_leads.exists %}
+        <p>Unassigned Leads</p>
+            {% for lead in unassinged_leads %}
+                <tr class="bg-white">
+                <h1>HELIE<h1>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <a class="text-blue-500 hover:text-blue-800" href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a>
+                </td><br>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGE:
+                {{ lead.age }}<br>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
+                {{ lead.agent }}
+                </td><br>
+                </tr><br>
+            {% endfor %}
+        {% endif %}
+             
+
+    <a href="{% url 'leads:assign_agent' %}">Create Leads</a> 
 
 </div>
 
