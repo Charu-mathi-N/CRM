@@ -11,6 +11,8 @@
     <li>AGE: {{ leads.age}}</li>
     <li>The AGENT responsible for the lead is: {{ leads.agent }}</li>
     <br>
+    {% comment %} <a href="{% url 'leads:category_update' leads.pk %}">Update Category</a>
+    <br> {% endcomment %}
     <a href="{% url 'leads:leads_delete' leads.pk %}">Delete Leads</a>
     <br></br>
     <a href="{% url 'leads:leads_update' leads.pk %}">Update Leads</a>

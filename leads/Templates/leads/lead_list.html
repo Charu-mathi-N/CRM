@@ -8,23 +8,27 @@
     <div class="py-5 border-t border-gray-200">
         <h1 class="text-4xl text-gray-800">The Leads page</h1>
     </div>
-        {% for lead in leads %}
-            <tr class="bg-white">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+    {% for lead in leads %}
+        <tr class="bg-white">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 <a class="text-blue-500 hover:text-blue-800" href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a>
-                </td><br>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGE:
+            </td><br>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGE:
                 {{ lead.age }}<br>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
                 {{ lead.agent }}
-                </td><br>
-                </tr><br>
-        {% endfor %}
-        {% if unassinged_leads.exists %}
-        <p>Unassigned Leads</p>
-            {% for lead in unassinged_leads %}
+            </td><br>
+        </tr><br>
+    {% endfor %}
+
+    <a class="text-3xl text-gray-600" href='{% url "leads:leads_create" %}'>Create Leads</a> 
+    <br><br>
+    <a class="text-3xl text-gray-600" href='{% url "leads:category_list" %}'>Categories</a>
+    <br><br>
+    {% if unassigned_leads.exists %}
+        <h2 class="text-3xl text-gray-700">Unassigned Leads</h2>
+            {% for lead in unassigned_leads %}
                 <tr class="bg-white">
-                <h1>HELIE<h1>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 <a class="text-blue-500 hover:text-blue-800" href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a>
                 </td><br>
@@ -32,14 +36,11 @@
                 {{ lead.age }}<br>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
                 {{ lead.agent }}
-                </td><br>
-                </tr><br>
+                </td><br><br>
+                <a class="text-3xl text-gray-600" href="{% url 'leads:assign_agent' lead.pk %}">Assign Leads</a> 
+                </tr><br><br>
             {% endfor %}
-        {% endif %}
-             
-
-    <a href="{% url 'leads:assign_agent' %}">Create Leads</a> 
-
+    {% endif %}    
 </div>
 
 {% endblock content %}
