@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% load tailwind_filters %}
+
 
 {% block content %}
 
-{{ leads }}
+{% comment %} {{ leads }}
 <p>The Leads details are:</p>
 <a href='{% url "leads:leads_list" %}'>Go Back</a>
 <div>
@@ -12,9 +15,57 @@
     <li>The AGENT responsible for the lead is: {{ leads.agent }}</li>
     <br>
     {% comment %} <a href="{% url 'leads:category_update' leads.pk %}">Update Category</a>
-    <br> {% endcomment %}
+    <br> 
     <a href="{% url 'leads:leads_delete' leads.pk %}">Delete Leads</a>
     <br></br>
     <a href="{% url 'leads:leads_update' leads.pk %}">Update Leads</a>
 </div>
+{% endblock content %} {% endcomment %}
+
+<a href='{% url "leads:leads_list" %}'>
+    <button class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Go Back</button>
+</a>
+<section class="text-gray-600 body-font overflow-hidden">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="lg:w-4/5 mx-auto flex flex-wrap">
+      <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+
+        <h2 class="text-sm title-font text-gray-500 tracking-widest">Lead Name</h2>
+        <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ leads.first_name}} {{leads.last_name}}</h1>
+        <div class="flex mb-4">
+          <a class="flex-grow text-yellow-500 border-b-2 border-yellow-500 py-2 text-lg px-1">Description</a>
+          <a href="{% url 'leads:category_update' leads.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1" >Category</a>
+          {% comment %} <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Details</a> {% endcomment %}
+        </div>
+        <p class="leading-relaxed mb-4">{{lead.description}}</p>
+        <div class="flex border-t border-gray-200 py-2">
+          <span class="text-gray-500">Age: </span>
+          <span class="ml-auto text-gray-900">{{ leads.age}}</span>
+        </div>
+        <div class="flex border-t border-gray-200 py-2">
+          <span class="text-gray-500">Agent Assigned</span>
+          <span class="ml-auto text-gray-900">{{ leads.agent }}</span>
+        </div>
+        <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+          <span class="text-gray-500">Contact</span>
+          <span class="ml-auto text-gray-900">{{leads.phone_number}}</span>
+        </div>
+        <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+          <span class="text-gray-500">Email</span>
+          <span class="ml-auto text-gray-900">{{leads.email}}</span>
+        </div>
+        <div class="flex">
+
+        <a href="{% url 'leads:leads_update' leads.pk %}">
+        <button class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Update Lead</button>
+        </a>
+        <a href="{% url 'leads:leads_delete' leads.pk %}">
+        <button class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Delete Lead</button>
+        </a>
+        </div>
+      </div>
+      <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{% static 'images/dashboard.svg' %}">
+    </div>
+  </div>
+</section>
 {% endblock content %}

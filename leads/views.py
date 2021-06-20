@@ -269,17 +269,17 @@ class LeadCategoryUpdatelView(OrganisorAndLoginRequiredMixin, generic.UpdateView
     form_class = LeadCategoryUpdateForm
 
     def get_success_url(self):
-        return reverse("leads:category_list")
+        return reverse("leads:lead_list")
 
     def get_queryset(self):
         user = self.request.user
         # initial queryset of leads for the entire organisation
         if user.is_organisor:
             queryset = Lead.objects.filter(organisation=user.userprofile)
-            print("Is organisor")
+            # print("Is organisor")
         else:
             queryset = Lead.objects.filter(organisation=user.agent.organisation)
             # filter for the agent that is logged in
-            queryset = queryset.filter(agent__user=user)
+        queryset = queryset.filter(agent__user=user)
         return queryset
 

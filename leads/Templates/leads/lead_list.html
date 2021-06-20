@@ -3,45 +3,76 @@
 {% load tailwind_filters %}
 
 {% block content %}
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
 
-<div class="max-w-lg mx-auto">
-    <a class="hover:text-blue-500" href="{% url "leads:leads_list" %}">Go back to leads</a>
-    <div class="py-5 border-t border-gray-200">
-        <h1 class="text-4xl text-gray-800">The Leads page</h1>
+    <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">The Leads page</h1>
+      <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">You can view the leads and convert this</p>
     </div>
-    {% for lead in leads %}
-        <tr class="bg-white">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <a class="text-blue-500 hover:text-blue-800" href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a>
-            </td><br>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGE:
-                {{ lead.age }}<br>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
-                {{ lead.agent }}
-            </td><br>
-        </tr><br>
-    {% endfor %}
+    <a class="hover:text-blue-500" href="{% url "leads:leads_list" %}">Go back to leads</a>
+    <h1 class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Assigned Leads</h1>
 
-    <a class="text-3xl text-gray-600" href='{% url "leads:leads_create" %}'>Create Leads</a> 
-    <br><br>
-    <a class="text-3xl text-gray-600" href='{% url "leads:category_list" %}'>Categories</a>
-    <br><br>
-    {% if unassigned_leads.exists %}
-        <h2 class="text-3xl text-gray-700">Unassigned Leads</h2>
+    <div class="flex flex-wrap -m-4">
+
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+        {% for lead in leads %}
+
+        <div class="border border-gray-200 p-6 rounded-lg">
+
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">
+                <a href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a></h2>
+
+            <p class="leading-relaxed text-base">AGE: {{ lead.age }}</p>
+            <p class="leading-relaxed text-base">AGENT: {{ lead.agent }}</p>
+
+        </div><br>
+        {% endfor %}
+      </div>
+    
+    </div>
+    <a href='{% url "leads:leads_create" %}'>
+        <button class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Create Leads</button>
+    </a>
+    <h1 class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">Unassigned Leads</h1>
+
+
+    <div class="flex flex-wrap -m-4">
+
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+        {% if unassigned_leads.exists %}
             {% for lead in unassigned_leads %}
-                <tr class="bg-white">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <div class="border border-gray-200 p-6 rounded-lg">
+
+                <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-4">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+
                 <a class="text-blue-500 hover:text-blue-800" href="{% url 'leads:leads_details' lead.pk %}">{{ lead.first_name }}{{ lead.last_name }}</a>
-                </td><br>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGE:
-                {{ lead.age }}<br>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">AGENT:
-                {{ lead.agent }}
-                </td><br><br>
-                <a class="text-3xl text-gray-600" href="{% url 'leads:assign_agent' lead.pk %}">Assign Leads</a> 
-                </tr><br><br>
+
+                <p class="leading-relaxed text-base">AGE:{{ lead.age }}</p>
+                <p class="leading-relaxed text-base">AGENT: {{ lead.agent }}</p>
+                <a class="text-3xl text-gray-700" href="{% url 'leads:assign_agent' lead.pk %}">Assign Leads</a> 
+             
+            </div>   <br>
             {% endfor %}
-    {% endif %}    
-</div>
+        {% endif %} 
+        </div>
+    </div>
+    <a href='{% url "leads:category_list" %}'>
+        <button class="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">View Categories</button>
+    </a>
+        
+  </div>
+
+</section>
 
 {% endblock content %}
