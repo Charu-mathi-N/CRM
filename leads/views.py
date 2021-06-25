@@ -1,4 +1,5 @@
 import logging
+import datetime
 from django.views.generic.detail import DetailView
 # from django.views.generic.edit import CreateView
 
@@ -268,9 +269,6 @@ class LeadCategoryUpdatelView(OrganisorAndLoginRequiredMixin, generic.UpdateView
     template_name = "leads/category_update.html"
     form_class = LeadCategoryUpdateForm
 
-    def get_success_url(self):
-        return reverse("leads:lead_list")
-
     def get_queryset(self):
         user = self.request.user
         # initial queryset of leads for the entire organisation
@@ -280,6 +278,23 @@ class LeadCategoryUpdatelView(OrganisorAndLoginRequiredMixin, generic.UpdateView
         else:
             queryset = Lead.objects.filter(organisation=user.agent.organisation)
             # filter for the agent that is logged in
-        queryset = queryset.filter(agent__user=user)
+            queryset = queryset.filter(agent__user=user)
         return queryset
+
+
+    def get_success_url(self):
+        return reverse("leads:leads_list")
+    
+    def form_valid(self, form):
+        lead_before_update = self.get_object()
+        instance = form.save(commit=False)
+        converted_category = Category.objects.get(name="Converted")
+        if form.cleaned_data["category"] == converted_category:
+            # update the date at which this lead was converted
+            if lead_before_update.category != converted_category:
+                # this lead has now been converted
+                instance.converted_date = datetime.datetime.now()
+        instance.save()
+        return super(LeadCategoryUpdatelView, self).form_valid(form)
+
 

@@ -34,7 +34,7 @@
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ leads.first_name}} {{leads.last_name}}</h1>
         <div class="flex mb-4">
           <a class="flex-grow text-yellow-500 border-b-2 border-yellow-500 py-2 text-lg px-1">Description</a>
-          <a href="{% url 'leads:category_update' leads.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1" >Category</a>
+          <a href="{% url 'leads:category_update' leads.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1" >Update Category</a>
           {% comment %} <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Details</a> {% endcomment %}
         </div>
         <p class="leading-relaxed mb-4">{{lead.description}}</p>
