@@ -12,27 +12,26 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from logging import debug
 from pathlib import Path
+import environ
 
-from pathlib import Path
-# import environ
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
 
-# env = environ.Env(
-#     DEBUG=(bool, False)
-# )
+READ_DOT_ENV_FILE = env.bool('READ_DOT_ENV_FILE', default=False)
+if READ_DOT_ENV_FILE:
+    environ.Env.read_env()
+# False if not in os.environ
+DEBUG = env('DEBUG')
 
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x#&kf@g1c8br*h7wh#n85xe%_l#n9po5er#o7&i=ur!$ptz*e7'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -43,6 +42,7 @@ LOGIN_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'djcrm.urls'
@@ -92,8 +93,12 @@ WSGI_APPLICATION = 'djcrm.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),        
     }
 }
 
@@ -146,6 +151,8 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 
 STATIC_ROOT = "static_root"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # if not DEBUG:
 #     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
